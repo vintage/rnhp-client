@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "globals": {
+    "fetch": false,
+  },
   "plugins": [
     "react",
     "flowtype",
