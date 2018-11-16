@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://dry-fjord-64564.herokuapp.com/api/v1'
+const API_URL = 'http://46.101.223.138/api/v1'
 
 class MessageService {
   static async getAll() {
@@ -10,6 +10,12 @@ class MessageService {
   static async create(content, author, image = null) {
     return (await axios.post(`${API_URL}/messages/`, {
       content, author, image,
+    })).data
+  }
+
+  static async like(messageId, author) {
+    return (await axios.post(`${API_URL}/messages/${messageId}/like/`, {
+      author,
     })).data
   }
 }

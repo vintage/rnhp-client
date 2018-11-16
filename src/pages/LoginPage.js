@@ -21,9 +21,7 @@ const LoginPage = (props: Props) => {
         onChangeText={onChange}
       />
 
-      <TouchableOpacity onPress={onSubmit}>
-        {!isLoading ? <Text>Save</Text> : <Text>Loading ...</Text>}
-      </TouchableOpacity>
+      <Button onPress={onSubmit} title={!isLoading ? 'Save' : 'Loading ...'} />
     </View>
   )
 }

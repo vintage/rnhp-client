@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paragraph, Surface, Text, Title } from 'react-native-paper'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   author: string,
   likesCount: number,
   picture: string,
+  onMessageLike: Function,
 };
 
 const styles = StyleSheet.create({
@@ -31,7 +32,9 @@ const styles = StyleSheet.create({
 })
 
 const ChatMessage = (props: Props) => {
-  const { picture, content, author, likesCount } = props
+  const {
+    picture, content, author, likesCount, onMessageLike,
+  } = props
 
   return (
     <Surface style={styles.container}>
@@ -46,7 +49,9 @@ const ChatMessage = (props: Props) => {
       <Paragraph>{author}</Paragraph>
       <View style={styles.footer}>
         <Text style={styles.likesCount}>{likesCount}</Text>
-        <Icon name="thumb-up" size={25} color="#3b5998" />
+        <TouchableOpacity onPress={onMessageLike}>
+          <Icon name="thumb-up" size={25} color="#3b5998" />
+        </TouchableOpacity>
       </View>
     </Surface>
   )

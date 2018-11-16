@@ -1,5 +1,7 @@
 import React from 'react'
+import { Vibration } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
+import Toast from 'react-native-simple-toast'
 
 import { AuthorService, MessageService } from '../services'
 import { ChatPage } from '../pages'
@@ -46,12 +48,19 @@ class ChatScreen extends React.Component<Props, State> {
       error = 'Unable to fetch messages, check your internet connection'
     }
 
+    if (this.hasMessagesChanged(messages)) {
+      Vibration.vibrate()
+    }
+
     this.setState({ messages, error, isLoading: false })
+  }
+
+  hasMessagesChanged(messages) {
+    return messages.length > 0
   }
 
   selectPicture() {
     ImagePicker.showImagePicker({}, (response) => {
-      console.log(response)
       if (response.didCancel) {
         console.log('User cancelled image picker')
       } else if (response.error) {
@@ -60,7 +69,7 @@ class ChatScreen extends React.Component<Props, State> {
         this.setState({
           pictureSource: response.uri,
           pictureData: response.data,
-        });
+        })
       }
     })
   }
@@ -72,8 +81,31 @@ class ChatScreen extends React.Component<Props, State> {
     await this.fetchMessages()
   }
 
+  async likeMessage(message) {
+    try {
+      await MessageService.like(message.id, await AuthorService.getName())
+    } catch (error) {
+      Toast.show('Not this time, sorry')
+      return
+    }
+
+    // Dirty way to update likes count
+    const { messages } = this.state
+    const newMessages = messages.map((m) => {
+      if (m.id === message.id) {
+        m.likes_count += 1
+      }
+
+      return m
+    })
+
+    this.setState({ messages: newMessages })
+  }
+
   render() {
-    const { message, messages, isLoading, error, pictureSource } = this.state
+    const {
+      message, messages, isLoading, error, pictureSource,
+    } = this.state
 
     return (
       <ChatPage
@@ -85,6 +117,7 @@ class ChatScreen extends React.Component<Props, State> {
         onRefresh={this.fetchMessages}
         onMessageChange={text => this.setState({ message: text })}
         onMessageSend={this.sendMessage}
+        onMessageLike={m => this.likeMessage(m)}
         onPictureTake={this.selectPicture}
       />
     )

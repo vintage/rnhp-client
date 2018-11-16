@@ -15,6 +15,7 @@ type Props = {
   onRefresh: Function,
   onMessageChange: Function,
   onMessageSend: Function,
+  onMessageLike: Function,
   onPictureTake: Function,
 };
 
@@ -30,10 +31,8 @@ const styles = StyleSheet.create({
 const ChatPage = (props: Props) => {
   const {
     message, messages, isLoading, error, onRefresh, onMessageChange,
-    onMessageSend, onPictureTake, picture,
+    onMessageSend, onMessageLike, onPictureTake, picture,
   } = props
-
-  console.log(picture)
 
   return (
     <Grid>
@@ -85,6 +84,7 @@ const ChatPage = (props: Props) => {
                 author={item.author}
                 likesCount={item.likes_count}
                 picture={item.image}
+                onMessageLike={() => onMessageLike(item)}
               />
             </View>
           ))}
