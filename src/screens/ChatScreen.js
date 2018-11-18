@@ -1,5 +1,5 @@
 import React from 'react'
-import { Vibration } from 'react-native'
+import { Vibration, Share } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import Toast from 'react-native-simple-toast'
 
@@ -102,6 +102,14 @@ class ChatScreen extends React.Component<Props, State> {
     this.setState({ messages: newMessages })
   }
 
+  async shareMessage(message) {
+    Share.share({
+      message: message.content,
+      title: message.author,
+      url: message.image || null,
+    })
+  }
+
   render() {
     const {
       message, messages, isLoading, error, pictureSource,
@@ -118,6 +126,7 @@ class ChatScreen extends React.Component<Props, State> {
         onMessageChange={text => this.setState({ message: text })}
         onMessageSend={this.sendMessage}
         onMessageLike={m => this.likeMessage(m)}
+        onMessageShare={m => this.shareMessage(m)}
         onPictureTake={this.selectPicture}
       />
     )

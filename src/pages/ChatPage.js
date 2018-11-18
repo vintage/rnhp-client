@@ -16,6 +16,7 @@ type Props = {
   onMessageChange: Function,
   onMessageSend: Function,
   onMessageLike: Function,
+  onMessageShare: Function,
   onPictureTake: Function,
 };
 
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
 const ChatPage = (props: Props) => {
   const {
     message, messages, isLoading, error, onRefresh, onMessageChange,
-    onMessageSend, onMessageLike, onPictureTake, picture,
+    onMessageSend, onMessageLike, onMessageShare, onPictureTake, picture,
   } = props
 
   return (
@@ -63,7 +64,7 @@ const ChatPage = (props: Props) => {
         <Col style={{ width: 60 }}>
           <TouchableOpacity onPress={onMessageSend}>
             <Icon
-              name="alarm"
+              name="send"
               size={50}
               color="red"
             />
@@ -73,7 +74,7 @@ const ChatPage = (props: Props) => {
 
       <Row>
         <FlatList
-          renderItem={(({ index, item }) => (
+          renderItem={({ index, item }) => (
             <View style={[
               styles.messageContainer,
               index % 2 ? styles.messageContainerRight : null,
@@ -85,9 +86,10 @@ const ChatPage = (props: Props) => {
                 likesCount={item.likes_count}
                 picture={item.image}
                 onMessageLike={() => onMessageLike(item)}
+                onMessageShare={() => onMessageShare(item)}
               />
             </View>
-          ))}
+          )}
           keyExtractor={item => item.id.toString()}
           data={messages}
           refreshing={isLoading}

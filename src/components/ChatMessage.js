@@ -9,6 +9,7 @@ type Props = {
   likesCount: number,
   picture: string,
   onMessageLike: Function,
+  onMessageShare: Function,
 };
 
 const styles = StyleSheet.create({
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
 
 const ChatMessage = (props: Props) => {
   const {
-    picture, content, author, likesCount, onMessageLike,
+    picture, content, author, likesCount, onMessageLike, onMessageShare,
   } = props
 
   return (
@@ -49,7 +50,10 @@ const ChatMessage = (props: Props) => {
       <Paragraph>{author}</Paragraph>
       <View style={styles.footer}>
         <Text style={styles.likesCount}>{likesCount}</Text>
-        <TouchableOpacity onPress={onMessageLike}>
+        <TouchableOpacity
+          onPress={onMessageLike}
+          onLongPress={onMessageShare}
+        >
           <Icon name="thumb-up" size={25} color="#3b5998" />
         </TouchableOpacity>
       </View>

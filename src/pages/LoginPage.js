@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Button } from 'react-native'
+import { SafeAreaView, Button, StyleSheet } from 'react-native'
 import { TextInput } from 'react-native-paper'
 
 type Props = {
@@ -9,11 +9,18 @@ type Props = {
   onSubmit: Function,
 };
 
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#29b45b',
+  },
+})
+
 const LoginPage = (props: Props) => {
   const { name, isLoading, onChange, onSubmit } = props
 
   return (
-    <View>
+    <SafeAreaView style={styles.wrapper}>
       <TextInput
         label="Name"
         value={name}
@@ -22,7 +29,7 @@ const LoginPage = (props: Props) => {
       />
 
       <Button onPress={onSubmit} title={!isLoading ? 'Save' : 'Loading ...'} />
-    </View>
+    </SafeAreaView>
   )
 }
 
