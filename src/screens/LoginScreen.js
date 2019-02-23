@@ -21,7 +21,11 @@ class LoginScreen extends React.Component<Props, State> {
     this.login = this.login.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.initializeAuthor()
+  }
+
+  async initializeAuthor() {
     this.setState({ name: await AuthorService.getName() })
   }
 
