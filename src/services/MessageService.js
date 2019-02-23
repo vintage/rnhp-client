@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://46.101.223.138/api/v1'
+const API_URL = 'http://46.101.140.45/api/v1'
 
 class MessageService {
   static async getAll() {
